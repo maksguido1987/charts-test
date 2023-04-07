@@ -14,8 +14,8 @@ export const Header = () => {
   };
 
   return (
-    <header className="flex">
-      <div className="bg-gray-200">
+    <header className="sm:flex">
+      <div className="bg-gray-200 ">
         <img
           src="/src/assets/logo.png"
           alt="natlex-logo"
