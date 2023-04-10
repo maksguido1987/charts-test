@@ -1,8 +1,9 @@
-import { FC, ReactNode } from "react";
+import { FC, Key, ReactNode } from "react";
 
 interface Props {
   date: Date;
   children: ReactNode;
+  key: Key;
 }
 
 export const ChartContainer: FC<Props> = ({ date, children }) => {
@@ -13,7 +14,7 @@ export const ChartContainer: FC<Props> = ({ date, children }) => {
   }).format(date);
 
   return (
-    <div className="p-4 shadow-md border rounded-lg h-60">
+    <div className="p-4 shadow-md border rounded-lg">
       <div className="mb-2 text-sm font-mono font-semibold">
         Created: {formattedDate}
       </div>

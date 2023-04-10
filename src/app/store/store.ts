@@ -13,18 +13,18 @@ import {
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import storage from "redux-persist/lib/storage";
+import { chartReducers } from "../../service/slice";
 
 const persistConfig = {
-  key: "-yy",
+  key: "charts",
   storage,
-  whitelist: ["geo"],
+  whitelist: ["charts"],
   blacklist: [],
   stateReconciler: autoMergeLevel2,
 };
 
 const rootReducer = combineReducers({
-  // homePage: homePageReducer,
-  // [apiSlice.reducerPath]: apiSlice.reducer,
+  charts: chartReducers,
 });
 const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(
   persistConfig,
@@ -40,9 +40,6 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     })
-      .concat
-      // apiSlice.middleware,
-      (),
 });
 
 export const persistor = persistStore(store);

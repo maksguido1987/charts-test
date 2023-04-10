@@ -1,10 +1,10 @@
 export interface Chart {
-  id: string;
-  createAt: number;
+  id: number;
+  createAt: Date;
   data: ChartData[];
 }
 
-interface ChartData {
-  year: string;
+export interface ChartData {
+  year: number;
   value: number;
 }
