@@ -2,9 +2,22 @@ import { Column } from "@ant-design/charts";
 import { useAppSelector } from "../../app/store/store";
 import { chartSelectors } from "../../service";
 import { ChartContainer } from "../chart-container/ChartContainer";
+import { Pagination } from "antd";
+import { useState } from "react";
 
 export const ChartsList = () => {
   const data = useAppSelector(chartSelectors.filteredCharts);
+
+  const [page, setPage] = useState(1);
+  const [chartsPerPage, setChartsPerPage] = useState(10);
+
+  if (data.length === 0) {
+    return null;
+  }
+
+  const onShowSizeChange = (current: number, size: number) => {
+    setChartsPerPage(size);
+  };
 
   const config = {
     xField: "year",
@@ -17,18 +30,39 @@ export const ChartsList = () => {
     },
   };
 
+  const indexOfLastPage = page + chartsPerPage;
+  const indexOfFirstPage = indexOfLastPage - chartsPerPage;
+  const currentCharts = data.slice(indexOfFirstPage, indexOfLastPage);
+
   return (
     <div className="space-y-3">
-      {data.length > 0 &&
-        data.map((chart) => {
-          const { data, createAt } = chart;
+      <Pagination
+        onChange={(value) => setPage(value)}
+        current={page}
+        pageSize={chartsPerPage}
+        total={data.length}
+        showSizeChanger
+        showQuickJumper
+        onShowSizeChange={onShowSizeChange}
+      />
+      {currentCharts.map((chart) => {
+        const { data, createAt } = chart;
 
-          return (
-            <ChartContainer key={chart.id} date={new Date(createAt)}>
-              <Column data={data} {...config} />
-            </ChartContainer>
-          );
-        })}
+        return (
+          <ChartContainer key={chart.id} date={new Date(createAt)}>
+            <Column data={data} {...config} />
+          </ChartContainer>
+        );
+      })}
+      <Pagination
+        onChange={(value) => setPage(value)}
+        current={page}
+        pageSize={chartsPerPage}
+        total={data.length}
+        showSizeChanger
+        showQuickJumper
+        onShowSizeChange={onShowSizeChange}
+      />
     </div>
   );
 };
