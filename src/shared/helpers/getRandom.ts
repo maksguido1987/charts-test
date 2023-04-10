@@ -25,7 +25,7 @@ export const getRandomChartsData = (charts = 10): Chart[] => {
 
     result.push({
       id: i,
-      createAt: generateRandomDOB(2018),
+      createAt: new Date(generateRandomDOB(2018)),
       data,
     });
   }
