@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useAppSelector } from "../../app/store/store";
 import { chartSelectors } from "../../service";
 import { Filter } from "./components/Filter";
@@ -10,7 +9,7 @@ export const ControlPanel = () => {
   const isSorting = data.length > 0;
 
   return (
-    <div className={`py-4 flex justify-${isSorting ? "between" : "end"}`}>
+    <div className={`py-4 flex justify-between`}>
       {isSorting && <Filter />}
       <CreateCharts />
     </div>

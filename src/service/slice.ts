@@ -17,6 +17,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     initializationCharts: (state, action: PayloadAction<number>) => {
+      state.filterValue = "";
       state.data = getRandomChartsData(action.payload);
     },
     setFilterValue: (state, action: PayloadAction<string>) => {

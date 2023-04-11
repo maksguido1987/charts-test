@@ -1,7 +1,10 @@
 export interface Chart {
   id: number;
-  createAt: Date;
+  createAt: string;
   data: ChartData[];
+  color?: string;
+  stroke?: string;
+  lineWidth?: number;
 }
 
 export interface ChartData {

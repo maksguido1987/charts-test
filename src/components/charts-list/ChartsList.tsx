@@ -1,4 +1,4 @@
-import { Column } from "@ant-design/charts";
+import { Line } from "@ant-design/charts";
 import { useAppSelector } from "../../app/store/store";
 import { chartSelectors } from "../../service";
 import { ChartContainer } from "../chart-container/ChartContainer";
@@ -24,10 +24,6 @@ export const ChartsList = () => {
     yField: "value",
     padding: 30,
     autoFit: true,
-    point: {
-      size: 5,
-      shape: "diamond",
-    },
   };
 
   const indexOfLastPage = page + chartsPerPage;
@@ -46,11 +42,16 @@ export const ChartsList = () => {
         onShowSizeChange={onShowSizeChange}
       />
       {currentCharts.map((chart) => {
-        const { data, createAt } = chart;
+        const { data, createAt, color, stroke, lineWidth } = chart;
 
         return (
           <ChartContainer key={chart.id} date={new Date(createAt)}>
-            <Column data={data} {...config} />
+            <Line
+              data={data}
+              color={color}
+              lineStyle={{ stroke, lineWidth }}
+              {...config}
+            />
           </ChartContainer>
         );
       })}
