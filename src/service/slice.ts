@@ -23,6 +23,9 @@ const slice = createSlice({
     setFilterValue: (state, action: PayloadAction<string>) => {
       state.filterValue = action.payload;
     },
+    deleteChart: (state, action: PayloadAction<number>) => {
+      state.data = state.data.filter((chart) => chart.id !== action.payload);
+    },
   },
 });
 

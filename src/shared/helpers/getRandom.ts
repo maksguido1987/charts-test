@@ -1,5 +1,4 @@
 import { Chart, ChartData } from "../../app/types";
-import { DEFAULT_CHART_LINE_COLOR } from "../constants";
 
 export const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -10,7 +9,7 @@ export const getRandomChartsData = (charts = 10): Chart[] => {
 
   const result: Chart[] = [];
 
-  for (let i = 0; i < charts; i += 1) {
+  for (let i = 1; i <= charts; i += 1) {
     const dataLength = getRandomNumber(10, 30);
     /** дата, с которой нужно начинать отсчёт */
     const firstYear = new Date().getFullYear() - dataLength;
