@@ -1,5 +1,4 @@
 import { FC, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
@@ -12,58 +11,58 @@ import {
 } from "antd";
 import {
   CURRENT_YEAR,
-  DEFAULT_CHART_LINE_COLOR,
-  DEFAULT_CHART_LINE_WIDTH,
   MIN_CHART_DATA_FIELD_LENGTH,
 } from "../../shared/constants";
 import { Chart, ChartData } from "../../app/types";
-import { useAppDispatch } from "../../app/store/store";
+import { useAppDispatch, useAppSelector } from "../../app/store/store";
 import { chartActions } from "../../service/slice";
+import { chartSelectors } from "../../service";
 
-export interface ModalProps {
-  isOpen: boolean;
-  setIsOpen: (value: boolean) => void;
-}
+export const UpdateModal: FC = () => {
+  const isOpenUpdateModal = useAppSelector(chartSelectors.isOpenUpdateModal);
+  const { id, createAt, data, color, lineWidth } = useAppSelector(
+    chartSelectors.updateChartData
+  );
 
-export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
   const dispatch = useAppDispatch();
 
   const [form] = Form.useForm();
 
   const onFinish = async () => {
-    await form.validateFields(["year", "value", "chartCreateData"]);
-    const { chartCreateData, color, lineWidth } = form.getFieldsValue();
+    await form.validateFields(["chartUpdateData"]);
+    const { chartUpdateData, color, lineWidth } = form.getFieldsValue();
 
     const body: Chart = {
-      id: uuidv4(),
-      createAt: new Date(),
-      data: chartCreateData.sort(
+      id,
+      createAt,
+      data: chartUpdateData.sort(
         (a: ChartData, b: ChartData) => a.year - b.year
       ),
       color,
       lineWidth,
     };
-    dispatch(chartActions.createChart(body));
-    onResetForm();
+    dispatch(chartActions.updateChart({ data: body, id }));
     onCloseModal();
   };
 
   const onResetForm = () => {
-    form.resetFields();
+    form.setFieldValue("color", color);
+    form.setFieldValue("lineWidth", lineWidth);
     form.setFieldsValue({
-      chartCreateData: [
-        { year: initialYear, value: initialValue },
-        { year: initialYear, value: initialValue },
-      ],
+      chartUpdateData: data,
     });
   };
 
-  const onCloseModal = () => setIsOpen(false);
+  const onCloseModal = () => {
+    dispatch(chartActions.setIsOpenUpdateModal(false));
+    dispatch(chartActions.clearUpdateChartData());
+  };
 
   useEffect(() => {
-    form.setFieldValue("color", DEFAULT_CHART_LINE_COLOR);
-    form.setFieldValue("lineWidth", DEFAULT_CHART_LINE_WIDTH);
-  }, [isOpen]);
+    form.setFieldValue("color", color);
+    form.setFieldValue("lineWidth", lineWidth);
+    form.setFieldValue("chartUpdateData", data);
+  }, [isOpenUpdateModal]);
 
   const initialYear = 1990;
   const initialValue = 0;
@@ -72,7 +71,7 @@ export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
     <Modal
       forceRender
       title={<Typography className="modalTitle">Create chart</Typography>}
-      open={isOpen}
+      open={isOpenUpdateModal}
       onCancel={onCloseModal}
       footer={[
         <Button key="close" onClick={onCloseModal}>
@@ -81,8 +80,13 @@ export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
         <Button key="clear" type="primary" onClick={onResetForm}>
           Reset
         </Button>,
-        <Button key="save" type="primary" htmlType="submit" onClick={onFinish}>
-          Save
+        <Button
+          key="update"
+          type="primary"
+          htmlType="submit"
+          onClick={onFinish}
+        >
+          Update
         </Button>,
       ]}
     >
@@ -94,10 +98,6 @@ export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
         style={{ maxWidth: 600 }}
       >
         <Form.List
-          initialValue={[
-            { year: initialYear, value: initialValue },
-            { year: initialYear, value: initialValue },
-          ]}
           rules={[
             {
               validator: async (_, names) => {
@@ -111,7 +111,7 @@ export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
               },
             },
           ]}
-          name="chartCreateData"
+          name="chartUpdateData"
         >
           {(fields, { add, remove }, { errors }) => (
             <>

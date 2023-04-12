@@ -10,7 +10,7 @@ export const getRandomChartsData = (charts = 10): Chart[] => {
 
   const result: Chart[] = [];
 
-  for (let i = 0; i <= charts; i += 1) {
+  for (let i = 0; i < charts; i += 1) {
     const dataLength = getRandomNumber(10, 30);
     /** дата, с которой нужно начинать отсчёт */
     const firstYear = new Date().getFullYear() - dataLength;

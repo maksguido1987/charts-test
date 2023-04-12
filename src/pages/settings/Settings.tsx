@@ -1,5 +1,10 @@
 import { Button } from "antd";
-import { ChartsList, Layout, CreateChartModal } from "../../components";
+import {
+  ChartsList,
+  Layout,
+  CreateChartModal,
+  UpdateModal,
+} from "../../components";
 import { useState } from "react";
 
 const Settings = () => {
@@ -19,6 +24,7 @@ const Settings = () => {
         isOpen={isOpenCreateModal}
         setIsOpen={setIsOpenCreateModal}
       />
+      <UpdateModal />
     </Layout>
   );
 };

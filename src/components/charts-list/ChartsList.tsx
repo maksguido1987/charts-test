@@ -12,7 +12,7 @@ interface Props {
 export const ChartsList: FC<Props> = memo(({ isSettingPage }) => {
   const data = useAppSelector(chartSelectors.filteredCharts);
 
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [chartsPerPage, setChartsPerPage] = useState(10);
 
   if (data.length === 0) {
@@ -46,13 +46,13 @@ export const ChartsList: FC<Props> = memo(({ isSettingPage }) => {
         onShowSizeChange={onShowSizeChange}
       />
       {currentCharts.map((chart) => {
-        const { data, createAt, color, lineWidth } = chart;
+        const { data, createAt, color, lineWidth, id } = chart;
 
         return (
           <ChartContainer
             isSettingPage={isSettingPage}
-            id={chart.id}
-            key={chart.id}
+            chart={chart}
+            key={id}
             date={new Date(createAt)}
           >
             <Line

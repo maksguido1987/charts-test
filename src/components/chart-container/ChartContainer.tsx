@@ -3,9 +3,10 @@ import { Popconfirm } from "antd";
 import { FC, Key, ReactNode } from "react";
 import { useAppDispatch } from "../../app/store/store";
 import { chartActions } from "../../service/slice";
+import { Chart } from "../../app/types";
 
 interface Props {
-  id: string;
+  chart: Chart;
   date: Date;
   children: ReactNode;
   key: Key;
@@ -14,11 +15,16 @@ interface Props {
 
 export const ChartContainer: FC<Props> = ({
   date,
+  chart,
   children,
-  id,
   isSettingPage = false,
 }) => {
   const dispatch = useAppDispatch();
+
+  const openUpdateChartModal = () => {
+    dispatch(chartActions.setIsOpenUpdateModal(true));
+    dispatch(chartActions.setUpdateChartData(chart));
+  };
 
   const formattedDate = new Intl.DateTimeFormat("ru", {
     year: "2-digit",
@@ -34,7 +40,7 @@ export const ChartContainer: FC<Props> = ({
           <div>
             <EditOutlined
               style={{ cursor: "pointer", padding: "5px" }}
-              onClick={() => undefined}
+              onClick={openUpdateChartModal}
             />
             <Popconfirm
               placement="topRight"
@@ -42,7 +48,7 @@ export const ChartContainer: FC<Props> = ({
               okType="danger"
               cancelText="Нет"
               title="Вы точно хотите удалить?"
-              onConfirm={() => dispatch(chartActions.deleteChart(id))}
+              onConfirm={() => dispatch(chartActions.deleteChart(chart.id))}
             >
               <DeleteOutlined
                 style={{ cursor: "pointer", padding: "5px", color: "red" }}
