@@ -16,12 +16,7 @@ export const Header = () => {
   return (
     <header className="sm:flex">
       <div className="bg-gray-200 ">
-        <img
-          src="/src/assets/logo.png"
-          alt="natlex-logo"
-          width={160}
-          height={46}
-        />
+        <img src="/logo.png" alt="natlex-logo" width={160} height={46} />
       </div>
       <Menu
         onClick={onNavigateClick}
