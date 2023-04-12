@@ -12,7 +12,7 @@ interface Props {
 export const ChartsList: FC<Props> = memo(({ isSettingPage }) => {
   const data = useAppSelector(chartSelectors.filteredCharts);
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [chartsPerPage, setChartsPerPage] = useState(10);
 
   if (data.length === 0) {
