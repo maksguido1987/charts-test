@@ -33,13 +33,14 @@ export const CreateChartModal: FC<ModalProps> = ({ isOpen, setIsOpen }) => {
   const onFinish = async () => {
     await form.validateFields(["year", "value", "chartCreateData"]);
     const { chartCreateData, color, lineWidth } = form.getFieldsValue();
+    const data = chartCreateData.sort(
+      (a: ChartData, b: ChartData) => a.year - b.year
+    );
 
     const body: Chart = {
       id: uuidv4(),
       createAt: new Date(),
-      data: chartCreateData.sort(
-        (a: ChartData, b: ChartData) => a.year - b.year
-      ),
+      data,
       color,
       lineWidth,
     };

@@ -31,13 +31,14 @@ export const UpdateModal: FC = () => {
   const onFinish = async () => {
     await form.validateFields(["chartUpdateData"]);
     const { chartUpdateData, color, lineWidth } = form.getFieldsValue();
+    const data = chartUpdateData.sort(
+      (a: ChartData, b: ChartData) => a.year - b.year
+    );
 
     const body: Chart = {
       id,
       createAt,
-      data: chartUpdateData.sort(
-        (a: ChartData, b: ChartData) => a.year - b.year
-      ),
+      data,
       color,
       lineWidth,
     };
