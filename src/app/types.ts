@@ -1,9 +1,8 @@
 export interface Chart {
-  id: number;
-  createAt: string;
+  id: string;
+  createAt: string | Date;
   data: ChartData[];
   color?: string;
-  stroke?: string;
   lineWidth?: number;
 }
 

@@ -1,11 +1,11 @@
-import { DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Popconfirm } from "antd";
 import { FC, Key, ReactNode } from "react";
 import { useAppDispatch } from "../../app/store/store";
 import { chartActions } from "../../service/slice";
 
 interface Props {
-  id: number;
+  id: string;
   date: Date;
   children: ReactNode;
   key: Key;
@@ -26,15 +26,16 @@ export const ChartContainer: FC<Props> = ({
     day: "numeric",
   }).format(date);
 
-  console.log(id);
-  
-
   return (
     <div className="p-4 shadow-md rounded-lg">
       <div className="mb-2 text-sm font-mono font-semibold flex justify-between">
         Created: {formattedDate}
         {isSettingPage && (
           <div>
+            <EditOutlined
+              style={{ cursor: "pointer", padding: "5px" }}
+              onClick={() => undefined}
+            />
             <Popconfirm
               placement="topRight"
               okText="Да"

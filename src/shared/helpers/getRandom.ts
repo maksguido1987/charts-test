@@ -1,4 +1,5 @@
 import { Chart, ChartData } from "../../app/types";
+import { v4 as uuidv4 } from "uuid";
 
 export const getRandomNumber = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -9,7 +10,7 @@ export const getRandomChartsData = (charts = 10): Chart[] => {
 
   const result: Chart[] = [];
 
-  for (let i = 1; i <= charts; i += 1) {
+  for (let i = 0; i <= charts; i += 1) {
     const dataLength = getRandomNumber(10, 30);
     /** дата, с которой нужно начинать отсчёт */
     const firstYear = new Date().getFullYear() - dataLength;
@@ -24,11 +25,10 @@ export const getRandomChartsData = (charts = 10): Chart[] => {
     }
 
     result.push({
-      id: i,
+      id: uuidv4(),
       createAt: generateRandomDOB(2018),
       data,
       color: getRandomColor(),
-      stroke: getRandomColor(),
       lineWidth: getRandomNumber(1, 5),
     });
   }

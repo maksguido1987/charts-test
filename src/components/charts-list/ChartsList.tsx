@@ -3,13 +3,13 @@ import { useAppSelector } from "../../app/store/store";
 import { chartSelectors } from "../../service";
 import { ChartContainer } from "../chart-container/ChartContainer";
 import { Pagination } from "antd";
-import { FC, useState } from "react";
+import { FC, memo, useState } from "react";
 
 interface Props {
   isSettingPage?: boolean;
 }
 
-export const ChartsList: FC<Props> = ({ isSettingPage }) => {
+export const ChartsList: FC<Props> = memo(({ isSettingPage }) => {
   const data = useAppSelector(chartSelectors.filteredCharts);
 
   const [page, setPage] = useState(1);
@@ -46,7 +46,7 @@ export const ChartsList: FC<Props> = ({ isSettingPage }) => {
         onShowSizeChange={onShowSizeChange}
       />
       {currentCharts.map((chart) => {
-        const { data, createAt, color, stroke, lineWidth } = chart;
+        const { data, createAt, color, lineWidth } = chart;
 
         return (
           <ChartContainer
@@ -58,7 +58,7 @@ export const ChartsList: FC<Props> = ({ isSettingPage }) => {
             <Line
               data={data}
               color={color}
-              lineStyle={{ stroke, lineWidth }}
+              lineStyle={{ lineWidth }}
               {...config}
             />
           </ChartContainer>
@@ -75,4 +75,4 @@ export const ChartsList: FC<Props> = ({ isSettingPage }) => {
       />
     </div>
   );
-};
+});
