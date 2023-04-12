@@ -13,7 +13,7 @@ import {
   CURRENT_YEAR,
   MIN_CHART_DATA_FIELD_LENGTH,
 } from "../../shared/constants";
-import { Chart, ChartData } from "../../app/types";
+import { Chart } from "../../app/types";
 import { useAppDispatch, useAppSelector } from "../../app/store/store";
 import { chartActions } from "../../service/slice";
 import { chartSelectors } from "../../service";
@@ -31,14 +31,11 @@ export const UpdateModal: FC = () => {
   const onFinish = async () => {
     await form.validateFields(["chartUpdateData"]);
     const { chartUpdateData, color, lineWidth } = form.getFieldsValue();
-    const data = chartUpdateData.sort(
-      (a: ChartData, b: ChartData) => a.year - b.year
-    );
 
     const body: Chart = {
       id,
       createAt,
-      data,
+      data: chartUpdateData,
       color,
       lineWidth,
     };

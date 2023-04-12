@@ -56,7 +56,13 @@ const slice = createSlice({
     ) => {
       state.data.forEach((chart, i) => {
         if (chart.id === action.payload.id) {
-          state.data[i] = action.payload.data;
+          const chartData = action.payload.data.data.sort((a, b) => {
+            return a.year - b.year;
+          });
+          state.data[i] = {
+            ...action.payload.data,
+            data: chartData,
+          };
         }
         return chart;
       });
